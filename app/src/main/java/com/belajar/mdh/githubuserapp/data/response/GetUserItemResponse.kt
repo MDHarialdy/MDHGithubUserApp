@@ -1,7 +1,7 @@
 package com.belajar.mdh.githubuserapp.data.response
 
 import com.google.gson.annotations.SerializedName
-data class GetUserResponseItem(
+data class GetUserItemResponse(
 
 	@field:SerializedName("login")
 	val login: String? = null,

@@ -2,14 +2,15 @@
     <string name="app_name">Github User App</string>
     <string name="username">ALBADRI MUNIR</string>
     <string name="image_user">image user</string>
-    <string name="fullname">M Dolyanda Harialdy</string>
+    <string name="fullname">Name: -</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="following">Following</string>
     <string name="follower">Followers</string>
     <string name="search_here">cari disini</string>
-    <string name="followerCount">0 Follower</string>
-    <string name="followingCount">0 Following</string>
+    <string name="followerCount">Followers: -</string>
+    <string name="followingCount">Following: -</string>
+    <string name="location">location: -</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="favorite">Favorite</string>
     <string name="settings">Settings</string>

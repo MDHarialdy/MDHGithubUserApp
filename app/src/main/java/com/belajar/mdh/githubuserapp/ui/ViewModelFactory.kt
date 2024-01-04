@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.belajar.mdh.githubuserapp.data.injection.Injection
 import com.belajar.mdh.githubuserapp.repository.AppRepository
+import com.belajar.mdh.githubuserapp.ui.detail.DetailViewModel
+import com.belajar.mdh.githubuserapp.ui.favorite.FavoriteViewModel
 import com.belajar.mdh.githubuserapp.ui.main.MainViewModel
 import java.lang.IllegalArgumentException
 
@@ -16,6 +18,12 @@ class ViewModelFactory(private val appRepository: AppRepository) :
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(appRepository) as T
+            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(appRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
+                FavoriteViewModel(appRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

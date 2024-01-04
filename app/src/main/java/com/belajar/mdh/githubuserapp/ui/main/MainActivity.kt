@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     //theme
     private fun observerTheme(){
         val pref = SettingPreferences.getInstance(application.dataStore)

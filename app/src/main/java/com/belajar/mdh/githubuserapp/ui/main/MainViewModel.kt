@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.belajar.mdh.githubuserapp.data.response.GetUserResponseItem
+import com.belajar.mdh.githubuserapp.data.response.GetUserItemResponse
 import com.belajar.mdh.githubuserapp.repository.AppRepository
 import kotlinx.coroutines.launch
 
@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(val repository: AppRepository): ViewModel() {
 
 
-    private var _responseUser = MutableLiveData<List<GetUserResponseItem>>()
-    var responseUser : LiveData<List<GetUserResponseItem>> = _responseUser
+    private var _responseUser = MutableLiveData<MutableList<GetUserItemResponse>>()
+    var responseUser : LiveData<MutableList<GetUserItemResponse>> = _responseUser
     //fungsi untuk mendapatkan list user
     fun getUser(){
         viewModelScope.launch {

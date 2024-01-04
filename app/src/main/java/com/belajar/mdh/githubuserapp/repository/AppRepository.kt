@@ -1,8 +1,8 @@
 package com.belajar.mdh.githubuserapp.repository
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import com.belajar.mdh.githubuserapp.data.network.ApiService
+import com.belajar.mdh.githubuserapp.data.response.DetailUserResponse
 import com.belajar.mdh.githubuserapp.database.AppDao
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
 import java.util.concurrent.ExecutorService
@@ -31,6 +31,13 @@ class AppRepository(val appDao: AppDao, val apiService: ApiService) {
        executorService.execute{appDao.delete(favoriteEntity)}
     }
     suspend fun getUserGithub() = apiService.getUserGithub()
+    suspend fun getDetailUserGithub(username: String): DetailUserResponse {
+       return apiService.getDetailUserGithub(username)
+    }
+
+    suspend fun getFollower(username: String) = apiService.getFollowerGithub(username)
+    suspend fun getFollowing(username: String) = apiService.getFollowingGithub(username)
+
 
     companion object {
         fun clearInstance(){
