@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.belajar.mdh.githubuserapp.data.model.Item
+import com.belajar.mdh.githubuserapp.data.response.GetUserResponseItem
 import com.belajar.mdh.githubuserapp.ui.adapter.UserAdapter
 import com.belajar.mdh.githubuserapp.utils.ResultData
 import com.belajar.mdhgithubuserapp.databinding.FragmentFollowBinding
@@ -18,10 +18,7 @@ import com.belajar.mdhgithubuserapp.databinding.FragmentFollowBinding
 class FollowFragment : Fragment() {
 
     private var binding:  FragmentFollowBinding? = null
-    private val adapter by lazy {
-        UserAdapter{
-        }
-    }
+    private lateinit var adapter: UserAdapter
 
     private val viewModel by activityViewModels<DetailViewModel>()
     var type = 0
@@ -55,7 +52,7 @@ class FollowFragment : Fragment() {
     private fun manageResultFollow(state: ResultData){
         when(state){
             is ResultData.Succes<*> ->{
-                adapter.setData(newData = state.data as MutableList<Item>)
+//                adapter.setData(newData = state.data as MutableList<GetUserResponseItem>)
             }
             is ResultData.Error -> {
                 Toast.makeText(requireActivity(), state.exception.message.toString(), Toast.LENGTH_SHORT).show()

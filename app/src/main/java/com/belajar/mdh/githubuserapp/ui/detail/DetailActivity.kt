@@ -10,11 +10,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.belajar.mdh.githubuserapp.data.model.ResponseDetailUser
+import com.belajar.mdh.githubuserapp.data.response.ResponseDetailUser
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
+import com.belajar.mdh.githubuserapp.ui.ViewModelFactory
 import com.belajar.mdhgithubuserapp.R.string
 import com.belajar.mdh.githubuserapp.ui.favorite.FavoriteViewModel
-import com.belajar.mdh.githubuserapp.ui.favorite.ViewModelFactory
 import com.belajar.mdh.githubuserapp.utils.ResultData
 import com.belajar.mdhgithubuserapp.R
 import com.belajar.mdhgithubuserapp.databinding.ActivityDetailBinding
@@ -26,7 +26,7 @@ class DetailActivity : AppCompatActivity() {
     //inisialisasi ViewBinding dan ViewModel
     private lateinit var binding: ActivityDetailBinding
     private val viewModel by viewModels<DetailViewModel>()
-    private val favoriteViewModel: FavoriteViewModel by viewModels{ ViewModelFactory.getInstance(this.application)}
+    private val favoriteViewModel: FavoriteViewModel by viewModels{ ViewModelFactory.getInstance(this)}
 
 
     @SuppressLint("SetTextI18n")

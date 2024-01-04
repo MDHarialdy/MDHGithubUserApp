@@ -4,28 +4,27 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
-import com.belajar.mdh.githubuserapp.repository.FavoriteRepository
+import com.belajar.mdh.githubuserapp.repository.AppRepository
 
 
-class FavoriteViewModel(application: Application) : ViewModel() {
-    private val mFavoriteRepository: FavoriteRepository = FavoriteRepository(application)
+class FavoriteViewModel(val appRepository: AppRepository) : ViewModel() {
 
     // LiveData untuk mengamati status favorit
     fun isFavorite(username: String): LiveData<FavoriteEntity> {
-        return mFavoriteRepository.isFavorite(username)
+        return appRepository.isFavorite(username)
     }
 
     // Menambahkan pengguna ke daftar favorit
     fun addToFavorites(favoriteEntity: FavoriteEntity) {
-            mFavoriteRepository.addToFavorites(favoriteEntity)
+            appRepository.addToFavorites(favoriteEntity)
     }
 
     // Menghapus pengguna dari daftar favorit
     fun removeFromFavorites(favoriteEntity: FavoriteEntity) {
-            mFavoriteRepository.removeFromFavorites(favoriteEntity)
+            appRepository.removeFromFavorites(favoriteEntity)
     }
 
     //Mendapatkan List User
-    fun getAllUser(): LiveData<List<FavoriteEntity>> = mFavoriteRepository.allFavoriteUsers()
+    fun getAllUser(): LiveData<List<FavoriteEntity>> = appRepository.allFavoriteUsers()
 
 }

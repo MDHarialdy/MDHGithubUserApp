@@ -12,17 +12,9 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView$SearchAutoComplete" />
 
     <item
-        android:id="@+id/favorite_menu"
-        android:title="@string/favorite"
-        android:icon="@drawable/baseline_favorite_24"
-        android:iconTint="#FBFBFB"
-        app:showAsAction="always"
-        />
-
-    <item
         android:id="@+id/settings_menu"
         android:title="@string/settings"
-        android:icon="@drawable/baseline_settings_applications_24"
+        android:icon="@drawable/settings"
         android:iconTint="#F8F8F8"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

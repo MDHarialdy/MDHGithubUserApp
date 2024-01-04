@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
 import com.belajar.mdh.githubuserapp.ui.detail.DetailActivity
-import com.belajar.mdhgithubuserapp.databinding.ItemViewBinding
+import com.belajar.mdhgithubuserapp.databinding.ItemUserBinding
 
 class FavoriteAdapter(private val listUser: List<FavoriteEntity>) :
     RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
 
-    class MyViewHolder(private val binding: ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FavoriteEntity) {
             binding.apply {
                 image.load(item.avatarUrl)
@@ -27,7 +27,7 @@ class FavoriteAdapter(private val listUser: List<FavoriteEntity>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 

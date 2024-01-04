@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface FavoriteDao {
+interface AppDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(favorite: FavoriteEntity)

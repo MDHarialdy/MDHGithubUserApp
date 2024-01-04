@@ -29,7 +29,7 @@ class DetailViewModel: ViewModel() {
         viewModelScope.launch {
             flow {
                 val response = ApiClient
-                    .githubService
+                    .ApiService
                     .getDetailUserGithub(username)
                 emit(response)
 
@@ -53,7 +53,7 @@ class DetailViewModel: ViewModel() {
         viewModelScope.launch {
             flow {
                 val response = ApiClient
-                    .githubService
+                    .ApiService
                     .getFollowerGithub(username)
                 emit(response)
 
@@ -82,7 +82,7 @@ class DetailViewModel: ViewModel() {
         viewModelScope.launch {
             flow {
                 val response = com.belajar.mdh.githubuserapp.data.network.ApiClient
-                    .githubService
+                    .ApiService
                     .getFollowingGithub(username)
                 emit(response)
 

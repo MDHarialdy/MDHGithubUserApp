@@ -1,4 +1,4 @@
-package com.belajar.mdh.githubuserapp.data.model
+package com.belajar.mdh.githubuserapp.data.response
 
 data class ResponseDetailUser(
     val avatar_url: String,
