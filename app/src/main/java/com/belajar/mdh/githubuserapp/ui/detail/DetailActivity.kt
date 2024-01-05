@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
 import com.belajar.mdh.githubuserapp.ui.ViewModelFactory
 import com.belajar.mdhgithubuserapp.R.string
@@ -38,25 +37,8 @@ class DetailActivity : AppCompatActivity() {
 
         setupViewModel()
         setupTabLayout()
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun setupViewModel(){
-        binding.progressBarDetail.visibility = View.VISIBLE
-        detailViewModel.getDetailUser(username)
-
-        //getDetail
-        detailViewModel.responseDetail.observe(this){user ->
-            avatarUrl = user.avatar_url
-            binding.tvDetailName.text = "Name: " + user.name
-            binding.tvFollower.text = "Follower: " + user.followers.toString()
-            binding.tvFollowing.text = "Following: " + user.following.toString()
-            binding.tvLocation.text = "Location: " + user.location
-            binding.imageView.load(user.avatar_url)
-            binding.progressBarDetail.visibility = View.INVISIBLE
-        }
-
-
+        detailViewModel.getFollower(username)
+//        detailViewModel.getFollowing(username)
         //favorite
         favoriteViewModel.isFavorite(username).observe(this){ user ->
             binding.btnFav.setOnClickListener {
@@ -79,6 +61,23 @@ class DetailActivity : AppCompatActivity() {
                     favoriteViewModel.removeFromFavorites(user)
                 }
             }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupViewModel(){
+        binding.progressBarDetail.visibility = View.VISIBLE
+        detailViewModel.getDetailUser(username)
+
+        //getDetail
+        detailViewModel.responseDetail.observe(this){user ->
+            avatarUrl = user.avatar_url
+            binding.tvDetailName.text = "Name: " + user.name
+            binding.tvFollower.text = "Follower: " + user.followers.toString()
+            binding.tvFollowing.text = "Following: " + user.following.toString()
+            binding.tvLocation.text = "Location: " + user.location
+            binding.imageView.load(user.avatar_url)
+            binding.progressBarDetail.visibility = View.INVISIBLE
         }
     }
 

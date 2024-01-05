@@ -1,7 +1,6 @@
 package com.belajar.mdh.githubuserapp.ui.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import com.belajar.mdhgithubuserapp.databinding.ItemUserBinding
 import java.util.Locale
 
 
-class UserAdapter(private val data: MutableList<GetUserItemResponse>):
+class UserAdapter(private val data: MutableList<GetUserItemResponse> = mutableListOf()):
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
 //     Replace the existing data with the new data
@@ -29,7 +28,8 @@ class UserAdapter(private val data: MutableList<GetUserItemResponse>):
             binding.image.load(item.avatarUrl) {
                 transformations(CircleCropTransformation())
             }
-            val name = item.login.toString().toUpperCase(Locale.ROOT)
+
+            val name = item.login.toString().uppercase(Locale.ROOT)
             binding.username.text = name
             binding.cvItemUser.setOnClickListener{
                 val intent = Intent(itemView.context, DetailActivity::class.java)
