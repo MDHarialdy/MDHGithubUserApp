@@ -12,6 +12,7 @@ import com.belajar.mdh.githubuserapp.database.FavoriteEntity
 import com.belajar.mdh.githubuserapp.ui.ViewModelFactory
 import com.belajar.mdhgithubuserapp.R.string
 import com.belajar.mdh.githubuserapp.ui.favorite.FavoriteViewModel
+import com.belajar.mdh.githubuserapp.utils.showToast
 import com.belajar.mdhgithubuserapp.R
 import com.belajar.mdhgithubuserapp.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayout
@@ -38,7 +39,7 @@ class DetailActivity : AppCompatActivity() {
         setupViewModel()
         setupTabLayout()
         detailViewModel.getFollower(username)
-//        detailViewModel.getFollowing(username)
+
         //favorite
         favoriteViewModel.isFavorite(username).observe(this){ user ->
             binding.btnFav.setOnClickListener {
@@ -67,7 +68,9 @@ class DetailActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun setupViewModel(){
         binding.progressBarDetail.visibility = View.VISIBLE
-        detailViewModel.getDetailUser(username)
+        detailViewModel.getDetailUser(username) {error ->
+            showToast(this, error)
+        }
 
         //getDetail
         detailViewModel.responseDetail.observe(this){user ->

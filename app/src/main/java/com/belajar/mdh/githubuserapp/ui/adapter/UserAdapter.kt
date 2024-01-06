@@ -13,7 +13,7 @@ import com.belajar.mdhgithubuserapp.databinding.ItemUserBinding
 import java.util.Locale
 
 
-class UserAdapter(private val data: MutableList<GetUserItemResponse> = mutableListOf()):
+class UserAdapter(private val data: MutableList<GetUserItemResponse> = mutableListOf(), val listener: (GetUserItemResponse) -> Unit ):
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
 //     Replace the existing data with the new data
@@ -31,11 +31,6 @@ class UserAdapter(private val data: MutableList<GetUserItemResponse> = mutableLi
 
             val name = item.login.toString().uppercase(Locale.ROOT)
             binding.username.text = name
-            binding.cvItemUser.setOnClickListener{
-                val intent = Intent(itemView.context, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_USERNAME, item.login)
-                itemView.context.startActivity(intent)
-            }
         }
     }
 
@@ -48,7 +43,7 @@ class UserAdapter(private val data: MutableList<GetUserItemResponse> = mutableLi
         val item = data[position]
         holder.bind(item)
         holder.itemView.setOnClickListener{
-            item.id
+            listener(item)
         }
     }
 }

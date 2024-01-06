@@ -1,6 +1,8 @@
 package com.belajar.mdh.githubuserapp.ui.detail
 
+import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,14 +10,16 @@ import androidx.lifecycle.viewModelScope
 import com.belajar.mdh.githubuserapp.data.response.DetailUserResponse
 import com.belajar.mdh.githubuserapp.repository.AppRepository
 import com.belajar.mdh.githubuserapp.utils.ResultData
+import com.belajar.mdh.githubuserapp.utils.showToast
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 
-class DetailViewModel(val appRepository: AppRepository): ViewModel() {
+class DetailViewModel(private val appRepository: AppRepository): ViewModel() {
 
     private var _responseDetail = MutableLiveData<DetailUserResponse>()
     var responseDetail : LiveData<DetailUserResponse> = _responseDetail
@@ -30,10 +34,15 @@ class DetailViewModel(val appRepository: AppRepository): ViewModel() {
     val resultFollower = MutableLiveData<ResultData>()
     val resultFollowing = MutableLiveData<ResultData>()
 
-    fun getDetailUser(username: String){
+    fun getDetailUser(username: String, onError: (String) -> Unit){
         viewModelScope.launch {
-            val response = appRepository.getDetailUserGithub(username)
-            _responseDetail.value = response
+            try {
+                val response = appRepository.getDetailUserGithub(username)
+                _responseDetail.value = response
+            } catch (e: HttpException){
+                Log.d("Detail View Model :", e.message().toString())
+                onError("Error: ${e.message.toString()}")
+            }
         }
     }
 

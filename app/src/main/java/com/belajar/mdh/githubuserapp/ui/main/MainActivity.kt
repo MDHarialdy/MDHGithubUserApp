@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.belajar.mdh.githubuserapp.data.response.GetUserItemResponse
 import com.belajar.mdh.githubuserapp.ui.ViewModelFactory
 import com.belajar.mdh.githubuserapp.ui.adapter.UserAdapter
 import com.belajar.mdh.githubuserapp.ui.detail.DetailActivity
@@ -21,6 +22,7 @@ import com.belajar.mdh.githubuserapp.ui.darkmode.DarkViewModelFactory
 import com.belajar.mdh.githubuserapp.ui.darkmode.SettingActivity
 import com.belajar.mdh.githubuserapp.utils.SettingPreferences
 import com.belajar.mdh.githubuserapp.utils.dataStore
+import com.belajar.mdh.githubuserapp.utils.showToast
 import com.belajar.mdhgithubuserapp.R
 import com.belajar.mdhgithubuserapp.databinding.ActivityMainBinding
 
@@ -30,7 +32,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var binding: ActivityMainBinding
-    private lateinit var userAdapter: UserAdapter
+    private val userAdapter by lazy {
+        UserAdapter{
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.EXTRA_USERNAME, it.login)
+            startActivity(intent)
+        }
+    }
 
     private val viewModel by viewModels<MainViewModel>{
         ViewModelFactory.getInstance(this@MainActivity)
@@ -68,10 +76,11 @@ class MainActivity : AppCompatActivity() {
     //setupViewModel
     private fun setUpViewModel(){
         binding.progressBar.visibility = View.VISIBLE
-        viewModel.getUser()
-        viewModel.responseUser.observe(this){ List ->
-            userAdapter = UserAdapter(List)
-            if (List != null){
+        viewModel.getUser(){ error ->
+            showToast(this, error)
+        }
+        viewModel.responseUser.observe(this){ list ->
+            if (list != null){
                 binding.recyclerView.apply {
                     adapter = userAdapter
                     layoutManager = LinearLayoutManager(this@MainActivity)
