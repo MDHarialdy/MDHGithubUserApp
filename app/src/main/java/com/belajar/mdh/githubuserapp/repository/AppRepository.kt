@@ -5,11 +5,13 @@ import com.belajar.mdh.githubuserapp.data.network.ApiService
 import com.belajar.mdh.githubuserapp.data.response.DetailUserResponse
 import com.belajar.mdh.githubuserapp.database.AppDao
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
+import com.belajar.mdh.githubuserapp.utils.SettingPreferences
+import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class AppRepository(val appDao: AppDao, val apiService: ApiService) {
+class AppRepository(val appDao: AppDao, val apiService: ApiService, val preferences: SettingPreferences) {
 
     private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
@@ -38,19 +40,25 @@ class AppRepository(val appDao: AppDao, val apiService: ApiService) {
     suspend fun getFollower(username: String) = apiService.getFollowerGithub(username)
     suspend fun getFollowing(username: String) = apiService.getFollowingGithub(username)
 
+    fun getThemeSettings(): Flow<Boolean> {
+        return preferences.getThemeSetting()
+    }
+
+    suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
+            preferences.saveThemeSetting(isDarkModeActive)
+    }
 
     companion object {
-        fun clearInstance(){
-            instance = null
-        }
+
         @Volatile
         private var instance: AppRepository? = null
         fun getInstance(
             appDao: AppDao,
-            apiService: ApiService
+            apiService: ApiService,
+            preferences: SettingPreferences
         ): AppRepository =
             instance?: synchronized(this) {
-                instance?: AppRepository(appDao, apiService)
+                instance?: AppRepository(appDao, apiService, preferences)
             }.also { instance = it }
     }
 }

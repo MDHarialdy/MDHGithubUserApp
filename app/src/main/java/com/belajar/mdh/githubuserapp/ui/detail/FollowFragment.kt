@@ -10,17 +10,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.belajar.mdh.githubuserapp.data.response.GetUserItemResponse
+import com.belajar.mdh.githubuserapp.ui.adapter.OnItemClickListener
 import com.belajar.mdh.githubuserapp.ui.adapter.UserAdapter
 import com.belajar.mdh.githubuserapp.utils.ResultData
 import com.belajar.mdhgithubuserapp.databinding.FragmentFollowBinding
 
 
 @Suppress("UNCHECKED_CAST")
-class FollowFragment : Fragment() {
+class FollowFragment : Fragment(), OnItemClickListener {
 
     private var binding:  FragmentFollowBinding? = null
     private val adapter by lazy {
-        UserAdapter()
+        UserAdapter(listener = this)
     }
 
     private val viewModel by activityViewModels<DetailViewModel>()
@@ -74,5 +75,9 @@ class FollowFragment : Fragment() {
             .apply {
                 this.type = type
             }
+    }
+
+    override fun onItemClick(user: GetUserItemResponse) {
+
     }
 }

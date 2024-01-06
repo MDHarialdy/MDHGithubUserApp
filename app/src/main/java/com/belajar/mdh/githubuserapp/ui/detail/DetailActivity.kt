@@ -38,31 +38,9 @@ class DetailActivity : AppCompatActivity() {
 
         setupViewModel()
         setupTabLayout()
+        favoriteViewModel()
         detailViewModel.getFollower(username)
 
-        //favorite
-        favoriteViewModel.isFavorite(username).observe(this){ user ->
-            binding.btnFav.setOnClickListener {
-                if (user == null) {
-                    binding.btnFav.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this@DetailActivity,
-                            R.drawable.favorite_full
-                        )
-                    )
-                    val readUser = FavoriteEntity(username, avatarUrl)
-                    favoriteViewModel.addToFavorites(readUser)
-                } else {
-                    binding.btnFav.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            this@DetailActivity,
-                            R.drawable.favorite_border
-                        )
-                    )
-                    favoriteViewModel.removeFromFavorites(user)
-                }
-            }
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -81,6 +59,37 @@ class DetailActivity : AppCompatActivity() {
             binding.tvLocation.text = "Location: " + user.location
             binding.imageView.load(user.avatar_url)
             binding.progressBarDetail.visibility = View.INVISIBLE
+        }
+    }
+
+    //setup FavoriteViewModel
+    private fun favoriteViewModel(){
+        //favorite
+        favoriteViewModel.isFavorite(username).observe(this){ user ->
+            if (user != null) {
+                binding.btnFav.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this@DetailActivity,
+                        R.drawable.favorite_full
+                    )
+                )
+            } else {
+                binding.btnFav.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this@DetailActivity,
+                        R.drawable.favorite_border
+                    )
+                )
+            }
+
+            binding.btnFav.setOnClickListener {
+                if (user == null) {
+                    val readUser = FavoriteEntity(username, avatarUrl)
+                    favoriteViewModel.addToFavorites(readUser)
+                } else {
+                    favoriteViewModel.removeFromFavorites(user)
+                }
+            }
         }
     }
 

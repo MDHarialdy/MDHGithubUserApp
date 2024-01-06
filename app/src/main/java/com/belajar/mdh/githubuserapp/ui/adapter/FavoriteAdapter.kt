@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
 import com.belajar.mdh.githubuserapp.ui.detail.DetailActivity
 import com.belajar.mdhgithubuserapp.databinding.ItemUserBinding
@@ -15,9 +16,11 @@ class FavoriteAdapter(private val listUser: List<FavoriteEntity>) :
     class MyViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FavoriteEntity) {
             binding.apply {
-                image.load(item.avatarUrl)
+                image.load(item.avatarUrl) {
+                    transformations(CircleCropTransformation())
+                }
                 username.text = item.username
-                itemView.setOnClickListener {
+                cvItemUser.setOnClickListener {
                     val intentDetail = Intent(itemView.context, DetailActivity::class.java)
                     intentDetail.putExtra(DetailActivity.EXTRA_USERNAME, item.username)
                     itemView.context.startActivity(intentDetail)

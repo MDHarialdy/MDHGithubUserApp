@@ -1,8 +1,6 @@
 package com.belajar.mdh.githubuserapp.ui.detail
 
-import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.belajar.mdh.githubuserapp.data.response.DetailUserResponse
 import com.belajar.mdh.githubuserapp.repository.AppRepository
 import com.belajar.mdh.githubuserapp.utils.ResultData
-import com.belajar.mdh.githubuserapp.utils.showToast
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
@@ -23,13 +20,6 @@ class DetailViewModel(private val appRepository: AppRepository): ViewModel() {
 
     private var _responseDetail = MutableLiveData<DetailUserResponse>()
     var responseDetail : LiveData<DetailUserResponse> = _responseDetail
-
-//    private var _responseFollower = MutableLiveData<MutableList<GetUserItemResponse>>()
-//    val responseFollower : LiveData<MutableList<GetUserItemResponse>> = _responseFollower
-//
-//    private var _responseFollowing = MutableLiveData<MutableList<GetUserItemResponse>>()
-//    val responseFollowing : LiveData<MutableList<GetUserItemResponse>> = _responseFollowing
-
 
     val resultFollower = MutableLiveData<ResultData>()
     val resultFollowing = MutableLiveData<ResultData>()
@@ -45,21 +35,6 @@ class DetailViewModel(private val appRepository: AppRepository): ViewModel() {
             }
         }
     }
-
-//    fun getFollower(username: String){
-//        viewModelScope.launch {
-//            val response = appRepository.getFollower(username)
-//            _responseFollower.value = response
-//        }
-//    }
-//
-//    fun getFollowing(username: String){
-//        viewModelScope.launch {
-//            val response = appRepository.getFollowing(username)
-//            _responseFollowing.value = response
-//        }
-//    }
-
 
     //fungsi untuk mendapatkan list foolower
     fun getFollower(username: String){

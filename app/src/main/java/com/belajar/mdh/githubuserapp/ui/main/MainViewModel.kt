@@ -15,13 +15,14 @@ class MainViewModel(val repository: AppRepository): ViewModel() {
 
 
     private var _responseUser = MutableLiveData<MutableList<GetUserItemResponse>>()
-    var responseUser : LiveData<MutableList<GetUserItemResponse>> = _responseUser
+    val responseUser : LiveData<MutableList<GetUserItemResponse>> = _responseUser
     //fungsi untuk mendapatkan list user
+
     fun getUser(onError: (String) -> Unit){
         try {
             viewModelScope.launch {
                 val response = repository.getUserGithub()
-                _responseUser.value = response
+                _responseUser.postValue(response)
             }
         } catch (e: HttpException) {
             Log.d("Main View Model", e.message().toString())
