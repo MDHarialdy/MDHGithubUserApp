@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.belajar.mdh.githubuserapp.data.injection.Injection
 import com.belajar.mdh.githubuserapp.repository.AppRepository
-import com.belajar.mdh.githubuserapp.ui.darkmode.DarkModeViewModel
+import com.belajar.mdh.githubuserapp.ui.darkmode.SettingViewModel
 import com.belajar.mdh.githubuserapp.ui.detail.DetailViewModel
 import com.belajar.mdh.githubuserapp.ui.favorite.FavoriteViewModel
 import com.belajar.mdh.githubuserapp.ui.main.MainViewModel
@@ -26,8 +26,8 @@ class ViewModelFactory(private val appRepository: AppRepository) :
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
                 FavoriteViewModel(appRepository) as T
             }
-            modelClass.isAssignableFrom(DarkModeViewModel::class.java) -> {
-                DarkModeViewModel(appRepository) as T
+            modelClass.isAssignableFrom(SettingViewModel::class.java) -> {
+                SettingViewModel(appRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

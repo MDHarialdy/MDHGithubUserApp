@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toolbar
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.belajar.mdh.githubuserapp.data.response.GetUserItemResponse
 import com.belajar.mdh.githubuserapp.ui.ViewModelFactory
@@ -16,8 +17,9 @@ import com.belajar.mdh.githubuserapp.ui.adapter.OnItemClickListener
 import com.belajar.mdh.githubuserapp.ui.adapter.UserAdapter
 import com.belajar.mdh.githubuserapp.ui.detail.DetailActivity
 import com.belajar.mdh.githubuserapp.ui.favorite.FavoriteUserActivity
-import com.belajar.mdh.githubuserapp.ui.darkmode.DarkModeViewModel
+import com.belajar.mdh.githubuserapp.ui.darkmode.SettingViewModel
 import com.belajar.mdh.githubuserapp.ui.darkmode.SettingActivity
+import com.belajar.mdh.githubuserapp.utils.ResultData
 import com.belajar.mdh.githubuserapp.utils.showToast
 import com.belajar.mdhgithubuserapp.R
 import com.belajar.mdhgithubuserapp.databinding.ActivityMainBinding
@@ -43,21 +45,34 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             val favorite = Intent(this, FavoriteUserActivity::class.java)
             startActivity(favorite)
         }
-        observerTheme()
+
         setUpViewModel()
+        observeLiveData()
+        observerTheme()
     }
 
+    //getCodeFromSetting
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE_SETTINGS) {
+            if (resultCode == RESULT_OK){
+                setUpViewModel()
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 
     //Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.option, menu)
+
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val settingMenu = Intent(this, SettingActivity::class.java)
 
         when(item.itemId){
-            R.id.settings_menu -> {startActivity(settingMenu)}
+            R.id.settings_menu -> { startActivityForResult(settingMenu, REQUEST_CODE_SETTINGS) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -65,31 +80,62 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
     //setupViewModel
     private fun setUpViewModel(){
 
-        binding.progressBar.visibility = View.VISIBLE
         viewModel.getUser { error ->
             showToast(this, error)
         }
-        //observe
-        viewModel.responseUser.observe(this){ List ->
-            if (List != null){
 
-                //init adapter
-                userAdapter = UserAdapter(List, listener = this)
+        binding.searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+//                viewModel.searchUser(query.toString())
+//                if (query == ""){
+//                    viewModel.getUser { error ->
+//                        showToast(this@MainActivity, error) }
+//                }
+                return false
+            }
 
-                binding.recyclerView.apply {
-                    adapter = userAdapter
-                    layoutManager = LinearLayoutManager(this@MainActivity)
-                    setHasFixedSize(true)
-                    binding.progressBar.visibility = View.INVISIBLE
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchUser(newText.toString())
+                if (newText == ""){
+                    viewModel.getUser { error ->
+                        showToast(this@MainActivity, error)
+                    }
+                }
+                return true
+            }
+        })
+    }
+
+    private fun observeLiveData(){
+
+        userAdapter = UserAdapter(listener = this)
+
+        viewModel.response.observe(this){resultData ->
+            binding.recyclerView.apply {
+                adapter = userAdapter
+                layoutManager = LinearLayoutManager(this@MainActivity)
+                setHasFixedSize(true)
+            }
+
+            when (resultData){
+                is ResultData.Succes<*> -> {
+                    userAdapter.setData(resultData.data as MutableList<GetUserItemResponse>)
+                }
+
+                is ResultData.Error -> {
+                    Toast.makeText(this, resultData.exception.message.toString(), Toast.LENGTH_SHORT).show()
+                }
+
+                is  ResultData.loading -> {
+                    binding.progressBar.isVisible = resultData.isLoading
                 }
             }
         }
     }
 
-
     //theme
     private fun observerTheme(){
-        val settingViewModel by viewModels <DarkModeViewModel>{ViewModelFactory.getInstance(this)}
+        val settingViewModel by viewModels <SettingViewModel>{ViewModelFactory.getInstance(this)}
         settingViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
             themeUpdate(isDarkModeActive)
         }
@@ -107,5 +153,9 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(DetailActivity.EXTRA_USERNAME, user.login)
         startActivity(intent)
+    }
+
+    companion object {
+        private const val REQUEST_CODE_SETTINGS = 123
     }
 }

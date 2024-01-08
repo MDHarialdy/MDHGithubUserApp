@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import coil.load
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
 import com.belajar.mdh.githubuserapp.ui.ViewModelFactory
+import com.belajar.mdh.githubuserapp.ui.adapter.FragmentTabAdapter
 import com.belajar.mdhgithubuserapp.R.string
 import com.belajar.mdh.githubuserapp.ui.favorite.FavoriteViewModel
 import com.belajar.mdh.githubuserapp.utils.showToast
@@ -104,8 +105,8 @@ class DetailActivity : AppCompatActivity() {
             getString(string.follower), getString(string.following)
         )
 
-        val tabAdapter = TabAdapter(this, fragments)
-        binding.viewpagerTab.adapter = tabAdapter
+        val fragmentTabAdapter = FragmentTabAdapter(this, fragments)
+        binding.viewpagerTab.adapter = fragmentTabAdapter
 
         TabLayoutMediator(binding.TabLayout, binding.viewpagerTab){tab, position ->
             tab.text = titleFragment[position]

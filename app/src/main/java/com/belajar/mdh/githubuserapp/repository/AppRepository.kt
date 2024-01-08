@@ -3,6 +3,7 @@ package com.belajar.mdh.githubuserapp.repository
 import androidx.lifecycle.LiveData
 import com.belajar.mdh.githubuserapp.data.network.ApiService
 import com.belajar.mdh.githubuserapp.data.response.DetailUserResponse
+import com.belajar.mdh.githubuserapp.data.response.SearchUserResponse
 import com.belajar.mdh.githubuserapp.database.AppDao
 import com.belajar.mdh.githubuserapp.database.FavoriteEntity
 import com.belajar.mdh.githubuserapp.utils.SettingPreferences
@@ -35,6 +36,11 @@ class AppRepository(val appDao: AppDao, val apiService: ApiService, val preferen
     suspend fun getUserGithub() = apiService.getUserGithub()
     suspend fun getDetailUserGithub(username: String): DetailUserResponse {
        return apiService.getDetailUserGithub(username)
+    }
+
+    suspend fun searchUser(query: String): SearchUserResponse{
+        val q = mapOf("q" to query)
+        return apiService.searchUserGithub(q)
     }
 
     suspend fun getFollower(username: String) = apiService.getFollowerGithub(username)

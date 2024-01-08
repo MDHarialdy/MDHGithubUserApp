@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.belajar.mdh.githubuserapp.repository.AppRepository
 import kotlinx.coroutines.launch
 
-class DarkModeViewModel (val appRepository: AppRepository) : ViewModel() {
+class SettingViewModel (val appRepository: AppRepository) : ViewModel() {
 
     fun getThemeSettings(): LiveData<Boolean> {
         return appRepository.getThemeSettings().asLiveData()

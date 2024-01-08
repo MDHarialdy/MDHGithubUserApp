@@ -29,7 +29,7 @@ android {
             )
         }
         debug {
-            buildConfigField ("String", "API_KEY", "\"Your Github Token Here\"")
+            buildConfigField ("String", "API_KEY", "\"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\"")
             buildConfigField ("String", "BASE_URL", "\"https://api.github.com/\"")
         }
     }
@@ -55,7 +55,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.github.siyamed:android-shape-imageview:0.9.+@aar")
 
 
     //viewModel And Livedata

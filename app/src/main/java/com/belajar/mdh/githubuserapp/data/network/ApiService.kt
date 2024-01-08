@@ -2,7 +2,7 @@ package com.belajar.mdh.githubuserapp.data.network
 
 import com.belajar.mdh.githubuserapp.data.response.GetUserItemResponse
 import com.belajar.mdh.githubuserapp.data.response.DetailUserResponse
-import com.belajar.mdh.githubuserapp.data.response.ResponseUserGithub
+import com.belajar.mdh.githubuserapp.data.response.SearchUserResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
@@ -38,7 +38,5 @@ interface ApiService {
     @GET("search/users")
     suspend fun searchUserGithub(
         @QueryMap search: Map<String, Any>
-    ): ResponseUserGithub
-
-
-    }
+    ): SearchUserResponse
+}

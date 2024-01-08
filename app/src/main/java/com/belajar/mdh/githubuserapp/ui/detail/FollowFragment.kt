@@ -36,7 +36,6 @@ class FollowFragment : Fragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //binding recycle view
         binding?.rvFollow?.apply {
             layoutManager = LinearLayoutManager(requireActivity())
             setHasFixedSize(true)

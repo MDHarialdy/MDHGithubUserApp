@@ -15,14 +15,14 @@ object ApiClient {
             val loggingInterceptor = HttpLoggingInterceptor()
 
             // add token API in Build config to enable this function
-//            val authInterceptor = Interceptor { user ->
-//                val requestUser = user.request()
-//                val requestHeaders = requestUser.newBuilder()
-//                    .addHeader("Authorization", "Bearer ${BuildConfig.API_KEY}")
-//                    .build()
-//                user.proceed(requestHeaders)
-//            }
-//            addInterceptor(authInterceptor)
+            val authInterceptor = Interceptor { user ->
+                val requestUser = user.request()
+                val requestHeaders = requestUser.newBuilder()
+                    .addHeader("Authorization", "Bearer ${BuildConfig.API_KEY}")
+                    .build()
+                user.proceed(requestHeaders)
+            }
+            addInterceptor(authInterceptor)
 
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             addInterceptor(loggingInterceptor)

@@ -5,34 +5,63 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.belajar.mdh.githubuserapp.data.response.GetUserItemResponse
 import com.belajar.mdh.githubuserapp.repository.AppRepository
+import com.belajar.mdh.githubuserapp.utils.ResultData
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 //view model untuk mainactivity
-class MainViewModel(val repository: AppRepository): ViewModel() {
+class MainViewModel(val appRepository: AppRepository): ViewModel() {
 
 
-    private var _responseUser = MutableLiveData<MutableList<GetUserItemResponse>>()
-    val responseUser : LiveData<MutableList<GetUserItemResponse>> = _responseUser
+    val _response = MutableLiveData<ResultData>()
+    val response : LiveData<ResultData> = _response
+
+    //get user
     //fungsi untuk mendapatkan list user
-
     fun getUser(onError: (String) -> Unit){
-        try {
-            viewModelScope.launch {
-                val response = repository.getUserGithub()
-                _responseUser.postValue(response)
+        viewModelScope.launch {
+            flow {
+                val response = appRepository.getUserGithub()
+                emit(response)
+
+            }.onStart {
+                _response.value = ResultData.loading(true)
+            }.onCompletion {
+                _response.value = ResultData.loading(false)
+            }.catch {
+                Log.e("Error", it.message.toString())
+                it.printStackTrace()
+                _response.value = ResultData.Error(it)
+            }.collect{
+                _response.value = ResultData.Succes(it)
             }
-        } catch (e: HttpException) {
-            Log.d("Main View Model", e.message().toString())
-            onError("Error Message: ${e.message.toString()}")
         }
     }
 
 
     //fungsi untuk mencari user
-    fun searchUser(username: String){
+    fun searchUser(q: String){
+        viewModelScope.launch {
+            flow {
+                val response = appRepository.searchUser(q)
+                emit(response)
 
+            }.onStart {
+                _response.value = ResultData.loading(true)
+            }.onCompletion {
+                _response.value = ResultData.loading(false)
+            }.catch {
+                Log.e("Error", it.message.toString())
+                it.printStackTrace()
+                _response.value = ResultData.Error(it)
+            }.collect{
+                _response.value = ResultData.Succes(it.items)
+            }
+        }
     }
+
 }

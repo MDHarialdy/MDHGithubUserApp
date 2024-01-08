@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/cv_searchview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -19,14 +20,32 @@
         app:layout_constraintVertical_bias="0.782"
         tools:listitem="@layout/item_user" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_searchview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/grey"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchview"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/search_here" />
+
+    </androidx.cardview.widget.CardView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_favorite"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_margin="15dp"
-        android:src="@drawable/baseline_favorite_24"
         app:fabSize="normal"
-        android:backgroundTint="@color/cream"
+        android:backgroundTint="#FFD180"
+        android:src="@drawable/baseline_favorite_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="Show Favorite" />
