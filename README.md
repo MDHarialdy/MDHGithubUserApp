@@ -5,7 +5,7 @@ GitHub User App is an Android application developed in Kotlin. This app provides
 ## Features
 
 - **User Search**: Easily search for GitHub users by entering their usernames.
-- **User Details**: View comprehensive details about each user, including their repositories, followers, and following.
+- **User Details**: View comprehensive details about each user, followers, following, and their location.
 - **Profile Information**: Access information such as user bio,and location.
 
 ## Tech Stack
